@@ -18,7 +18,7 @@
            android:layout_alignParentLeft="true"
            android:layout_centerVertical="true"
            android:background="@drawable/defselector"
-           android:text="注册"
+           android:text="登录"
            android:textSize="12sp"
            android:gravity="center"
            android:textColor="#fff"

@@ -25,6 +25,7 @@ public class Welcome extends Activity {
         setContentView(R.layout.welcome);
         initImage();
         Log.d("DONGYIN","oncreate");
+        startActivity();
     }
 
     private void initImage() {
@@ -51,7 +52,7 @@ public class Welcome extends Activity {
 
             }
         });
-        iv_start.startAnimation(scaleAnimation);
+       ///// iv_start.startAnimation(scaleAnimation);
     }
 
 

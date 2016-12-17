@@ -19,6 +19,9 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVOSCloud;
+import com.avos.avoscloud.AVUser;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -98,7 +101,7 @@ public class CalendarActivity extends Activity implements OnGestureListener {
 		login.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+                  loginAVOS();
 			}
 		});
 
@@ -118,6 +121,22 @@ public class CalendarActivity extends Activity implements OnGestureListener {
 			}
 		});
 
+
+
+        initAvosCloud();
+	}
+
+	private void loginAVOS() {
+		startActivity(new Intent(CalendarActivity.this, LoginActivity.class));
+	}
+
+	private void initAvosCloud() {
+		AVOSCloud.initialize(this, "02APN0XjGMEpzb8PVnhxi3XA-gzGzoHsz", "ji6oTh4iQI4SwChc7posVu6m");
+
+
+		if(AVUser.getCurrentUser()!=null){
+			login.setText(AVUser.getCurrentUser().getUsername());
+		}
 	}
 
 	private void go2NextMonth() {
