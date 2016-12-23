@@ -11,10 +11,14 @@ import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Button;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -139,7 +143,7 @@ public class CalendarAdapter extends BaseAdapter {
 			convertView = LayoutInflater.from(context).inflate(R.layout.calendar_item, null);
 		 }
 		TextView textView = (TextView) convertView.findViewById(R.id.tvtext);
-		String d = dayNumber[position].split("\\.")[0];
+		final String d = dayNumber[position].split("\\.")[0];
 		String dv = dayNumber[position].split("\\.")[1];
 
 		SpannableString sp = new SpannableString(d+"\n"+dv);
@@ -178,7 +182,22 @@ public class CalendarAdapter extends BaseAdapter {
 			drawable = res.getDrawable(R.drawable.current_day_bgc);
 			textView.setBackgroundDrawable(drawable);
 			textView.setTextColor(Color.WHITE);
+		}else{
+
 		}
+
+
+		textView.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				String clickDate = getShowYear()+" "+getShowMonth()+" "+d;
+				Log.d("DONGYIN","clickDate = " + clickDate);
+				//v.setBackgroundColor(Color.GREEN);
+				showPopupWindow(v);
+				return true;
+			}
+		});
+
 		return convertView;
 	}
 	
@@ -309,4 +328,48 @@ public class CalendarAdapter extends BaseAdapter {
 	public void setCyclical(String cyclical) {
 		this.cyclical = cyclical;
 	}
+
+	private void showPopupWindow(View view) {
+
+		// 一个自定义的布局，作为显示的内容
+		View contentView = LayoutInflater.from(context).inflate(
+				R.layout.pop_window, null);
+		// 设置按钮的点击事件
+		Button button = (Button) contentView.findViewById(R.id.button1);
+		button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(context, "button is pressed",
+						Toast.LENGTH_SHORT).show();
+			}
+		});
+
+		final PopupWindow popupWindow = new PopupWindow(contentView,
+				ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+		popupWindow.setTouchable(true);
+
+		popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				Log.i("mengdd", "onTouch : ");
+
+				return false;
+				// 这里如果返回true的话，touch事件将被拦截
+				// 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
+			}
+		});
+
+		// 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
+		// 我觉得这里是API的一个bug
+		popupWindow.setBackgroundDrawable(context.getResources().getDrawable(
+				R.drawable.current_day_bgc));
+
+		// 设置好参数之后再show
+		popupWindow.showAsDropDown(view);
+	}
+
+
+
+
 }

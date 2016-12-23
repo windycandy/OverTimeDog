@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
 
     defaultConfig {
         applicationId "android.com.overtimedog"
-        minSdkVersion 21
-        targetSdkVersion 23
+        minSdkVersion 19
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
     }
@@ -44,6 +44,8 @@ dependencies {
 
     // LeanCloud 应用内搜索包
     //compile ('cn.leancloud.android:avoscloud-search:v3.+@aar')
-
-
+    compile files('libs/gson-2.3.1.jar')
+    compile files('libs/okhttp-2.3.0.jar')
+    compile files('libs/okhttp-3.4.1.jar')
+    compile files('libs/okio-1.8.0.jar')
 }
